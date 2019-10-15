@@ -12,6 +12,7 @@
       systemd:
         name: httpd
         state: restarted
+        enabled: yes
     - name: Install firewalld
       yum: 
         name: firewalld
@@ -24,7 +25,7 @@
       user:
         name: bob
         state: present
-        comment: "bob smith"
+        comment: "Bob Smith"
         group: wheel
         uid: 2001
         create_home: yes
