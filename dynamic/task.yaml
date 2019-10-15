@@ -35,6 +35,29 @@
       package:
         name: lftp
         state: present
+     - name: Install multiple users
+      user:
+      package:
+        name: "{{item}}"
+        state: present
+      with_items:
+        - bob
+        - sam
+        - ben
+        - tim
+     - name: Install multiple packages
+      package:
+        name: "{{item}}"
+        state: present
+      with_items:
+        - mariadb-server
+        - php
+        - httpd
+        - curl
+        - gzip
+        - httpd
+        - openssh-server
+    
 
 
 
