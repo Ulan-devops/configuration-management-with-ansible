@@ -45,7 +45,7 @@
         - sam
         - ben
         - tim
-    - name: Install multiple packages
+     - name: Install multiple packages
       package:
         name: "{{item}}"
         state: present
