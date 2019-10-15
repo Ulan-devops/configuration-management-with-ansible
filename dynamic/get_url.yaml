@@ -7,9 +7,10 @@
     - name: Download wordpress
       get_url:
         url: "https://wordpress.org/latest.zip"
-        dest: /www/var/html/
+        dest: /tmp/
     - name: Unzip
       unarchive:
         src: /www/var/html/wordpress-5.2.3.zip
-        dest: /www/var/html
+        dest: /tmp
+        remote_src: yes
       ignore_errors: true
