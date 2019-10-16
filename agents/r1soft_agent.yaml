@@ -23,5 +23,5 @@
 
     - name: Stop firewalld
       systemd: firewalld
-      state: stopped
-      enabled: false
+        state: stopped
+        enabled: false
