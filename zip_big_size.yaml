@@ -5,5 +5,5 @@
   become_method: sudo
   tasks:
     - name: Log files older than 90 days
-      shell: "find /var/log/httpd/ -type f -name *.log -size +1G -exec gzip  {} +"
-      
+      shell: "find /var/log/httpd/ -type f -name *.log -size +1G -exec gzip  -9 {} +"
+
