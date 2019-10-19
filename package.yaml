@@ -1,6 +1,6 @@
 ---
 - name: Playbook for Installing 1 package
-  hosts: "{{hosts}}"
+  hosts: "{{host}}"
   become: yes
   become_method: sudo
   tasks:
