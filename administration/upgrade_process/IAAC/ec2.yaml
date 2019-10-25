@@ -1,6 +1,6 @@
 ---
 - name: Playbook for Provisioning
-  hosts: Localhost
+  hosts: localhost
   become: yes
   become_method: sudo
   tasks:
