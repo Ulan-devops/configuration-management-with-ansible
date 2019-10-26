@@ -12,7 +12,7 @@
         tags: 
           module: ec2_vpc_net
           task: vpc
-    register: vpc_info
+      register: vpc_info
     
     
     - name: Get VPC info
@@ -20,7 +20,7 @@
         region: us-east-2
         vpc_ids: "{{vpc_info.vpcs[0].vpc_id}}"
         tag:module: ec2_vpc_net
-    register: vpc_info
+      register: vpc_info
     
     - name: "Create subnet for database servers"
         ec2_vpc_subnet: 
@@ -31,7 +31,7 @@
         cidr: 10.10.1.0/24
         resource_tags: 
           Name: "Private Subnet"
-    register: private_subnet1
+      register: private_subnet1
      
     - name: "Create subnet for database servers"
       ec2_vpc_subnet: 
@@ -42,7 +42,7 @@
         cidr: 10.10.2.0/24
         resource_tags: 
           Name: "Private Subnet"
-    register: private_subnet2
+      register: private_subnet2
 
     - name: "Create subnet for database servers"
       ec2_vpc_subnet: 
@@ -53,7 +53,7 @@
         cidr: 10.10.1.0/24
         resource_tags: 
           Name: "Private Subnet"
-    register: private_subnet3
+      register: private_subnet3
 
     - name: "Create subnet for  web servers"
       ec2_vpc_subnet: 
@@ -64,7 +64,7 @@
         cidr: 10.10.101.1/24
         resource_tags: 
           Name: "Public Subnet"
-    register: public_subnet1
+      register: public_subnet1
 
     - name: "Create subnet for web servers"
       ec2_vpc_subnet: 
@@ -75,7 +75,7 @@
         cidr: 10.10.102.2/24
         resource_tags: 
           Name: "Public Subnet"
-    register: public_subnet2
+      register: public_subnet2
    
     - name: "Create subnet for web servers"
       ec2_vpc_subnet: 
@@ -86,7 +86,7 @@
         cidr: 10.10.103.3/24
         resource_tags: 
           Name: "Public Subnet"
-    register: public_subnet3
+      register: public_subnet3
    
     - name: 
       ec2_vpc_igw: 
@@ -107,4 +107,4 @@
               proto: tcp
               rule_desc: "allow all on port 80"
           vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
-    register: sec_group_id
+      register: sec_group_id
