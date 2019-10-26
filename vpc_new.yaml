@@ -1,55 +1,110 @@
----
-- name: Playbook for Provisioning
+--- 
+- name: "Playbook for Provisioning"
   hosts: localhost
   connection: local
-  become: yes
-  become_method: sudo
-  tasks:
-    - ec2:
-        key_name: "{{key_name}}"
-        instance_type: "{{instance_type}}"
-        image: "{{image}}"
-        count: "{{count}}"
-        vpc_subnet_id: "{{vpc_subnet_id}}"
-        assign_public_ip: yes 
+  gather_facts: false
+  tasks: 
+    - name: "create vpc in region"
+    ec2_vpc_net: 
+        name: new-vpc
+        cidr_block: 10.10.0.0/16
         region: us-east-2
-
----
-- name: Playbook for VPC_creating
-  ec2_vpc_net:
-    name: Module_dev2
-    cidr_block: 10.0.0.0/16
-    region: us-east-2
-    tags:
-      module: ec2_vpc_net
-      task: vpc
- - name: Create subnet for private
-  ec2_vpc_subnet:
-    state: present
-    vpc_id: "{{vpc_info.vpcs[0]vpc_id}}"
-    cidr: 10.0.1.16/28
-    resource_tags:
-      Name: private Subnet
-  register: private_subnet
-
-  - name: Subnet for database servers
-  ec2_vpc_subnet:
-    state: present
-    vpc_id: "{{vpc_info.vpcs[0]vpc_id}}"
-    cidr: 10.0.1.16/28
-  register: private_subnet
-
-- name: Create subnet for webserver
-  ec2_vpc_subnet:
-    state: present
-    vpc_id: "{{vpc_info.vpcs[0]vpc_id}}"
-    cidr: 10.1.100.0/24
-  register: private_subnet
+        tags: 
+          module: ec2_vpc_net
+          task: vpc
+      register: vpc_info
     
+    
+    - name: Get VPC info
+      ec2_vpc_net_facts:
+        region: us-east-2
+        vpc_ids: "{{vpc_info.vpcs[0].vpc_id}}"
+        tag:module: ec2_vpc_net
+      register: vpc_info
+    
+   - name: "Create subnet for database servers"
+    ec2_vpc_subnet: 
+      state: present
+      region: us-east-2
+      az: us-east-2a
+      vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
+      cidr: 10.10.1.0/24
+      resource_tags: 
+        Name: "Private Subnet"
+    register: private_subnet1
+     
+   - name: "Create subnet for database servers"
+    ec2_vpc_subnet: 
+      state: present
+      region: us-east-2
+      az: us-east-2b
+      vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
+      cidr: 10.10.2.0/24
+      resource_tags: 
+        Name: "Private Subnet"
+     register: private_subnet2
 
-- name: Subnet for webserver
-  ec2_vpc_subnet:
-    state: present
-    vpc_id: "{{vpc_info.vpcs[0]vpc_id}}"
-    cidr: 10.1.100.1/24
-  register: public_subnet
+   - name: "Create subnet for database servers"
+      ec2_vpc_subnet: 
+        state: present
+        region: us-east-2
+        az: us-east-2c
+        vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
+        cidr: 10.10.1.0/24
+        resource_tags: 
+          Name: "Private Subnet"
+     register: private_subnet3
+
+    - name: "Create subnet for  web servers"
+      ec2_vpc_subnet: 
+        state: present
+        region: us-east-2
+        az: us-east-2a
+        vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
+        cidr: 10.10.101.1/24
+        resource_tags: 
+          Name: "Public Subnet"
+      register: public_subnet1
+
+    - name: "Create subnet for web servers"
+      ec2_vpc_subnet: 
+        state: present
+        region: us-east-2
+        az: us-east-2b
+        vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
+        cidr: 10.10.102.2/24
+        resource_tags: 
+          Name: "Public Subnet"
+      register: public_subnet2
+   
+    - name: "Create subnet for web servers"
+      ec2_vpc_subnet: 
+        state: present
+        region: us-east-2
+        az: us-east-2c
+        vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
+        cidr: 10.10.103.3/24
+        resource_tags: 
+          Name: "Public Subnet"
+      register: public_subnet3
+   
+    - name: ~
+      ec2_vpc_igw: 
+        state: present
+        vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
+        register: igw
+
+    - name: "ssh and httpd open"
+      ec2_group: 
+        description: "sg with rule descriptions"
+        region: eu-central-1
+        rules: 
+          - name: "example using security group rule descriptions"
+            cidr_ip: 0.0.0.0/0
+            ports: 
+              - 80
+              - 22
+            proto: tcp
+            rule_desc: "allow all on port 80"
+        vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
+      register: sec_group_id

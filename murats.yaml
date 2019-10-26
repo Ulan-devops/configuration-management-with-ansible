@@ -61,7 +61,7 @@
         region: us-east-2
         az: us-east-2a
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
-        cidr: 10.10.101.0/24
+        cidr: 10.10.101.1/24
         resource_tags: 
           Name: "Public Subnet"
       register: public_subnet1
@@ -72,7 +72,7 @@
         region: us-east-2
         az: us-east-2b
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
-        cidr: 10.10.102.0/24
+        cidr: 10.10.102.2/24
         resource_tags: 
           Name: "Public Subnet"
       register: public_subnet2
@@ -83,7 +83,7 @@
         region: us-east-2
         az: us-east-2c
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
-        cidr: 10.10.103.0/24
+        cidr: 10.10.103.3/24
         resource_tags: 
           Name: "Public Subnet"
       register: public_subnet3
