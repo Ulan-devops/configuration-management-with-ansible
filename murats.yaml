@@ -18,7 +18,7 @@
     
     - name: Get VPC info
       ec2_vpc_net_facts:
-        region: eu-central-1
+        region: us-east-2
         vpc_ids: "{{vpc_info.vpcs[0].vpc_id}}"
        "tag:module": ec2_vpc_net
       register: vpc_info
@@ -27,7 +27,7 @@
     ec2_vpc_subnet: 
       state: present
       region: us-east-2
-      az: eu-central-1a
+      az: us-east-2a
       vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
       cidr: 10.10.1.0/24
       resource_tags: 
