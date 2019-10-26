@@ -16,13 +16,13 @@
     
     
     - name: Get VPC info
-      ec2_vpc_net_facts:
+    ec2_vpc_net_facts:
         region: us-east-2
         vpc_ids: "{{vpc_info.vpcs[0].vpc_id}}"
         tag:module: ec2_vpc_net
       register: vpc_info
     
-   - name: "Create subnet for database servers"
+    - name: "Create subnet for database servers"
     ec2_vpc_subnet: 
       state: present
       region: us-east-2
@@ -33,7 +33,7 @@
         Name: "Private Subnet"
     register: private_subnet1
      
-   - name: "Create subnet for database servers"
+    - name: "Create subnet for database servers"
     ec2_vpc_subnet: 
       state: present
       region: us-east-2
@@ -44,8 +44,8 @@
         Name: "Private Subnet"
      register: private_subnet2
 
-   - name: "Create subnet for database servers"
-      ec2_vpc_subnet: 
+    - name: "Create subnet for database servers"
+    ec2_vpc_subnet: 
         state: present
         region: us-east-2
         az: us-east-2c
@@ -56,7 +56,7 @@
      register: private_subnet3
 
     - name: "Create subnet for  web servers"
-      ec2_vpc_subnet: 
+    ec2_vpc_subnet: 
         state: present
         region: us-east-2
         az: us-east-2a
@@ -67,7 +67,7 @@
       register: public_subnet1
 
     - name: "Create subnet for web servers"
-      ec2_vpc_subnet: 
+    ec2_vpc_subnet: 
         state: present
         region: us-east-2
         az: us-east-2b
@@ -78,7 +78,7 @@
       register: public_subnet2
    
     - name: "Create subnet for web servers"
-      ec2_vpc_subnet: 
+    ec2_vpc_subnet: 
         state: present
         region: us-east-2
         az: us-east-2c
@@ -89,13 +89,13 @@
       register: public_subnet3
    
     - name: ~
-      ec2_vpc_igw: 
+    ec2_vpc_igw: 
         state: present
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
         register: igw
 
     - name: "ssh and httpd open"
-      ec2_group: 
+    ec2_group: 
         description: "sg with rule descriptions"
         region: eu-central-1
         rules: 
