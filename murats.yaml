@@ -3,10 +3,9 @@
   hosts: localhost
   connection: local
   gather_facts: false
-  become: false
   tasks: 
     - name: "create vpc in region"
-      ec2_vpc_net: 
+    ec2_vpc_net: 
         name: new-vpc
         cidr_block: 10.10.0.0/16
         region: us-east-2
@@ -20,7 +19,7 @@
       ec2_vpc_net_facts:
         region: us-east-2
         vpc_ids: "{{vpc_info.vpcs[0].vpc_id}}"
-       "tag:module": ec2_vpc_net
+        tag:module: ec2_vpc_net
       register: vpc_info
     
    - name: "Create subnet for database servers"
