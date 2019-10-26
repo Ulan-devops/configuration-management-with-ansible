@@ -1,0 +1,55 @@
+---
+- name: Playbook for Provisioning
+  hosts: localhost
+  connection: local
+  become: yes
+  become_method: sudo
+  tasks:
+    - ec2:
+        key_name: "{{key_name}}"
+        instance_type: "{{instance_type}}"
+        image: "{{image}}"
+        count: "{{count}}"
+        vpc_subnet_id: "{{vpc_subnet_id}}"
+        assign_public_ip: yes 
+        region: "{{region}}"
+
+---
+- name: Playbook for VPC_creating
+  ec2_vpc_net:
+    name: Module_dev2
+    cidr_block: 10.0.0.0/16
+    region: us-east-2
+    tags:
+      module: ec2_vpc_net
+      task: vpc
+ - name: Create subnet for private
+  ec2_vpc_subnet:
+    state: present
+    vpc_id: "{{vpc_info_info.vpcs[0]vpc_id}}"
+    cidr: 10.0.1.16/28
+    resource_tags:
+      Name: private Subnet
+  register: private_subnet
+
+  - name: Subnet for database servers
+  ec2_vpc_subnet:
+    state: present
+    vpc_id: "{{vpc_info_info.vpcs[0]vpc_id}}"
+    cidr: 10.0.1.16/28
+  register: private_subnet
+
+- name: Create subnet for webserver
+  ec2_vpc_subnet:
+    state: present
+    vpc_id: "{{vpc_info_info.vpcs[0]vpc_id}}"
+    cidr: 10.1.100.0/24
+  register: private_subnet
+    
+
+- name: Subnet for webserver
+  ec2_vpc_subnet:
+    state: present
+    vpc_id: "{{vpc_info_info.vpcs[0]vpc_id}}"
+    cidr: 10.1.100.1/24
+  register: public_subnet
