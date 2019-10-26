@@ -12,7 +12,7 @@
         count: "{{count}}"
         vpc_subnet_id: "{{vpc_subnet_id}}"
         assign_public_ip: yes 
-        region: "{{region}}"
+        region: us-east-2
 
 ---
 - name: Playbook for VPC_creating
@@ -26,7 +26,7 @@
  - name: Create subnet for private
   ec2_vpc_subnet:
     state: present
-    vpc_id: "{{vpc_info_info.vpcs[0]vpc_id}}"
+    vpc_id: "{{vpc_info.vpcs[0]vpc_id}}"
     cidr: 10.0.1.16/28
     resource_tags:
       Name: private Subnet
@@ -35,14 +35,14 @@
   - name: Subnet for database servers
   ec2_vpc_subnet:
     state: present
-    vpc_id: "{{vpc_info_info.vpcs[0]vpc_id}}"
+    vpc_id: "{{vpc_info.vpcs[0]vpc_id}}"
     cidr: 10.0.1.16/28
   register: private_subnet
 
 - name: Create subnet for webserver
   ec2_vpc_subnet:
     state: present
-    vpc_id: "{{vpc_info_info.vpcs[0]vpc_id}}"
+    vpc_id: "{{vpc_info.vpcs[0]vpc_id}}"
     cidr: 10.1.100.0/24
   register: private_subnet
     
@@ -50,6 +50,6 @@
 - name: Subnet for webserver
   ec2_vpc_subnet:
     state: present
-    vpc_id: "{{vpc_info_info.vpcs[0]vpc_id}}"
+    vpc_id: "{{vpc_info.vpcs[0]vpc_id}}"
     cidr: 10.1.100.1/24
   register: public_subnet
