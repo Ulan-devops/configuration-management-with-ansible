@@ -8,7 +8,7 @@
       ec2_vpc_net: 
         name: new-vpc
         cidr_block: 10.10.0.0/16
-        region: us-east-2
+        region: "{{region}}"
         tags: 
           module: ec2_vpc_net
           task: vpc
@@ -17,7 +17,7 @@
     
     - name: Get VPC info
       ec2_vpc_net_facts:
-        region: us-east-2
+        region: "{{region}}"
         vpc_ids: "{{vpc_info.vpcs[0].vpc_id}}"
         "tag:module": ec2_vpc_net
       register: vpc_info
@@ -25,7 +25,7 @@
     - name: "Create subnet for database server"
         ec2_vpc_subnet: 
         state: present
-        region: us-east-2
+        region: "{{region}}"
         az: us-east-2a
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
         cidr: 10.10.1.0/24
@@ -36,7 +36,7 @@
     - name: "Create subnet for database server"
       ec2_vpc_subnet: 
         state: present
-        region: us-east-2
+        region: "{{region}}"
         az: us-east-2b
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
         cidr: 10.10.2.0/24
@@ -47,7 +47,7 @@
     - name: "Create subnet for database server"
       ec2_vpc_subnet: 
         state: present
-        region: us-east-2
+        region: "{{region}}"
         az: us-east-2c
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
         cidr: 10.10.1.0/24
@@ -58,7 +58,7 @@
     - name: "Create subnet for  web server"
       ec2_vpc_subnet: 
         state: present
-        region: us-east-2
+        region: "{{region}}"
         az: us-east-2a
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
         cidr: 10.10.101.1/24
@@ -69,7 +69,7 @@
     - name: "Create subnet for web server"
       ec2_vpc_subnet: 
         state: present
-        region: us-east-2
+        region: "{{region}}"
         az: us-east-2b
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
         cidr: 10.10.102.2/24
@@ -80,7 +80,7 @@
     - name: "Create subnet for web server"
       ec2_vpc_subnet: 
         state: present
-        region: us-east-2
+        region: "{{region}}"
         az: us-east-2c
         vpc_id: "{{vpc_info.vpcs[0].vpc_id}}"
         cidr: 10.10.103.3/24
@@ -97,7 +97,7 @@
     - name: "ssh and httpd open"
         ec2_group: 
           description: "sg with rule descriptions"
-          region: eu-central-1
+          region: "{{region}}"
           rules: 
             - name: "example using security group rule descriptions"
               cidr_ip: 0.0.0.0/0
