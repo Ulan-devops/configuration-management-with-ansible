@@ -23,7 +23,7 @@
       register: vpc_info
     
     - name: "Create subnet for database server"
-        ec2_vpc_subnet: 
+      ec2_vpc_subnet: 
         state: present
         region: "{{region}}"
         az: us-east-2a
