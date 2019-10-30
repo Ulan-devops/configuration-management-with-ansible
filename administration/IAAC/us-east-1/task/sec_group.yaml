@@ -1,6 +1,7 @@
 ---
 - name: Playbook for sec group
   hosts: localhost
+  gather_facts: no
   tasks:
     - name: Create Sec Group
       ec2_group:

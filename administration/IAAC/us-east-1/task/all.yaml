@@ -21,6 +21,12 @@
 - name: Add igw
   import_playbook: igw.yaml
 
+- name: Add Public RT
+  import_playbook: rt_public.yaml
+
+- name: Add Private RT
+  import_playbook: rt_private.yaml
+
 
 
  

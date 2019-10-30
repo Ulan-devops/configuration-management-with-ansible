@@ -1,6 +1,7 @@
 ---
 - name: Playbook for sec group
   hosts: localhost
+  gather_facts: no
   tasks:
     - name: create IGW
       ec2_vpc_igw:

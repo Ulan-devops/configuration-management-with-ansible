@@ -1,6 +1,7 @@
 ---
 - name: Playbook for sec group
   hosts: localhost
+  gather_facts: no
   tasks:
     - name: VPC for class
       ec2_vpc_net:

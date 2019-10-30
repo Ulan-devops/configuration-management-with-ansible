@@ -1,6 +1,7 @@
 ---
 - name: Playbook for Subnets
   hosts: localhost
+  gather_facts: no
   tasks:
     - name: Create Public
   ec2_vpc_subnet:
