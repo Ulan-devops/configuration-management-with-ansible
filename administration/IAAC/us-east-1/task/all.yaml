@@ -20,11 +20,20 @@ me: Playbook for Creating VPC
 - name: Add igw
   import_playbook: igw.yaml
 
+<<<<<<< HEAD
 - name: Add Public RT 
   import_playbook: rt_public.yaml
 
 - name: Add Private RT 
   import_playbook: rt_private.yaml
+=======
+- name: Add Public RT
+  import_playbook: rt_public.yaml
+
+- name: Add Private RT
+  import_playbook: rt_private.yaml
+
+>>>>>>> 198c0c1bbca96e544ff441cc3fb24690b49d4576
 
 - name: Run ASG
   import_playbook: asg.yaml
