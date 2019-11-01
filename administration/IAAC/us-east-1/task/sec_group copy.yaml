@@ -1,13 +1,21 @@
 ---
-- name: Playbook for sec group
+- name: Playbook for sec groups
   hosts: localhost
   gather_facts: no
   tasks:
-    - name: Create Sec Group
+
+    - name: Collect VPC info
+      ec2_vpc_net_facts:
+        region: us-east-1
+        filters:
+          "tag:Task": VPC
+      register: VPC1
+
+    - name: Create Sec Group1
       ec2_group:
-        name: SecGroup
-        description: Sec Group 1
-        vpc_id: vpc-e4243182
+        name: SecGroupForVPC
+        description: Sec Group 1 for VPC
+        vpc_id: "{{VPC1.vpcs[0].vpc_id}}"
         region: us-east-1
         rules:
           - proto: tcp
@@ -18,3 +26,4 @@
             ports:
             - 22
             cidr_ip: 0.0.0.0/0
+      register: SecGroup
